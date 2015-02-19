@@ -20,6 +20,7 @@ import com.vaadin.data.Container.ItemSetChangeNotifier;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.AbstractContainer;
+import com.vaadin.data.util.AbstractProperty;
 import org.apache.commons.beanutils.*;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
@@ -349,7 +350,7 @@ public class ListContainer<T> extends AbstractContainer implements
 
         private final Map<Object, DynaProperty> propertyIdToProperty = new HashMap<Object, DynaProperty>();
 
-        private class DynaProperty implements Property {
+        private class DynaProperty extends AbstractProperty implements Property {
 
             private final String propertyName;
 
@@ -365,6 +366,7 @@ public class ListContainer<T> extends AbstractContainer implements
             @Override
             public void setValue(Object newValue) throws Property.ReadOnlyException {
                 getDynaBean().set(propertyName, newValue);
+                fireValueChange();
             }
 
             @Override
